@@ -7,7 +7,6 @@ public class Absorb : MonoBehaviour
 {
     // PARAMETERS
     public bool absorbing = false;
-    
 
     // COMPONENTS
     private SpriteRenderer _spriteRenderer;
@@ -27,18 +26,24 @@ public class Absorb : MonoBehaviour
         // ABSORB WHEN PRESSING SPACE
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            absorbEnemy();
+            absorbing = true;
+
+            // PAINT THE SPRITE RED IF ABSORBING
+            _spriteRenderer.color = Color.red;
+
+            // ENABLE COLLIDERS
+            absorbArea.SetActive(absorbing);
+            dissapearArea.SetActive(absorbing);
         }
-    }
 
-    private void absorbEnemy()
-    {
-        absorbing = true;
+        // STOP ABSORBING WHEN SPACE IS RELEASED
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            absorbing = false;
 
-        // PAINT THE SPRITE RED IF ABSORBING
-        _spriteRenderer.color = Color.red;
-
-        absorbArea.SetActive(absorbing);
-        dissapearArea.SetActive(absorbing);
+            // DISABLE COLLIDERS
+            absorbArea.SetActive(absorbing);
+            dissapearArea.SetActive(absorbing);
+        }
     }
 }
