@@ -5,9 +5,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class AbsorbArea : MonoBehaviour
 {
-    public float absorbEnemySpeed = 5.0f;
+    public float absorbEnemySpeed = 2.0f;
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.CompareTag("Enemy"))
         {
