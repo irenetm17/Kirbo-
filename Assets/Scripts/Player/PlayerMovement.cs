@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     // COMPONENTS
     private SpriteRenderer _spriteRenderer; 
     private Rigidbody2D _rigidbody2D;
+    private GameObject _absorbArea;
     
 
     private void Awake()
@@ -24,6 +25,7 @@ public class Movement : MonoBehaviour
         // INITIALIZE COMPONENTS
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _absorbArea = transform.GetChild(0).gameObject;
 
         // GET INITIAL BASE COLOR
         baseColor = _spriteRenderer.color;
@@ -87,12 +89,20 @@ public class Movement : MonoBehaviour
 
     private void flipCharacter()
     {
+        Vector3 scale = _absorbArea.transform.localScale;
+
         // PAINT  THE SPRITE GREEN IF MOVING LEFT
         if (input < 0)
         {
-            _spriteRenderer.color = Color.blue;
-        }else{
-            _spriteRenderer.color = baseColor;
+            _spriteRenderer.color = Color.blue;   
+      
+            scale.x = -1.0f;           
         }
+        else{
+            _spriteRenderer.color = baseColor;
+
+            scale.x = 1.0f;
+        }
+        _absorbArea.transform.localScale = scale;
     }
 }
