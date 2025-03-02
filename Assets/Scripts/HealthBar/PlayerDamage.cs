@@ -17,19 +17,20 @@ public class PlayerDamage : MonoBehaviour
         healthBar.setMaxHealth(maxHealth);
     }
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (collision.CompareTag("Health"))
+        {
+            
+            healKirbo(1);    
+            collision.gameObject.SetActive(false);  
+        }else if (collision.CompareTag("Damage"))
         {
             takeDamage(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            healKirbo(1);
-
+            collision.gameObject.SetActive(false) ;
         }
     }
-        void takeDamage(int damage)
+    void takeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.setHealth(currentHealth); 
