@@ -78,10 +78,12 @@ public class Movement : MonoBehaviour
 
         // CHECK IF GROUNDED
         bool grounded = Physics2D.OverlapCircle(colliderPosition, 0.01f, LayerMask.GetMask("Floor"));
+       
 
         // ADD JUMP FORCE IF GROUNDED
         if (grounded && Input.GetKeyDown(KeyCode.W))
         {
+            
             float jump = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight); // CALCULATE JUMP MAGNITUDE
             _rigidbody2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse); // ADD FORCE TO THE RIGIDBODY
         }
