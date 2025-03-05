@@ -38,6 +38,8 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+=======
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -542,6 +544,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1774,7 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+=======
 --- !u!1 &1535766568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,6 +2818,7 @@ Transform:
   m_Children:
   - {fileID: 1535766569}
   - {fileID: 1455411555}
+=======
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -2827,3 +2832,4 @@ SceneRoots:
   - {fileID: 1759017950}
   - {fileID: 248451808}
   - {fileID: 458625617}
+=======
