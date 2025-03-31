@@ -1288,6 +1288,8 @@ PlayableDirector:
     value: {fileID: 1692491657}
   - key: {fileID: -2732941125640566163, guid: 889637d238a67434086393a12e4a5ed8, type: 2}
     value: {fileID: 1775673458}
+  - key: {fileID: 7453153516934525517, guid: 889637d238a67434086393a12e4a5ed8, type: 2}
+    value: {fileID: 1692491657}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &308092921
@@ -1786,9 +1788,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.72156864, b: 1, a: 1}
-  m_FlipX: 0
+  m_Sprite: {fileID: 21300000, guid: db2e3b78d5579bc4384f419327c8c91d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -1824,7 +1826,7 @@ Animator:
   m_GameObject: {fileID: 1692491650}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db3387eaab2aac1488d4b57bb9b6093e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
