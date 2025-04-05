@@ -70,6 +70,8 @@
     <Compile Include="Assets\Scripts\Menus\VideoScript.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Menus\Navegation.cs" />
+    <Compile Include="Assets\Scripts\CameraScript.cs" />
+    <Compile Include="Assets\Scripts\ParalaxEffect.cs" />
     <Compile Include="Assets\Scripts\HealthBar\PlayerDamage.cs" />
   </ItemGroup>
   <ItemGroup>
