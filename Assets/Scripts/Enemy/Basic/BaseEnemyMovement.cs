@@ -17,7 +17,7 @@ public class BaseEnemyMovement : MonoBehaviour
     private GameObject _attackPlayerArea;
     public GameObject _startPath;
     public GameObject _endPath;
-    
+
     private void Awake()
     {
         // INITIALIZE COMPONENTS
@@ -60,7 +60,7 @@ public class BaseEnemyMovement : MonoBehaviour
         Vector3 scale = _attackPlayerArea.transform.localScale;
 
         // IF MOVING LEFT
-        if (transform.position.x  > player.position.x)
+        if (transform.position.x > player.position.x)
         {
             scale.x = -1.0f;
 

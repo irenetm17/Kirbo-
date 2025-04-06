@@ -29,6 +29,6 @@ public class BaseEnemyAttack : MonoBehaviour
 
             timer = 0f;
             enemyMovementScript.attacking = false;
-        }   
+        }
     }
 }
