@@ -6,6 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Animacion_inicial.unity
+    guid: e012dac9c87c16b489f84816646ab39c
+  - enabled: 1
+    path: Assets/Scenes/Inicio/Inicio.unity
+    guid: bac81e5f36266f34595f269234361481
+  - enabled: 1
+    path: Assets/Scenes/Menu_Principal.unity
+    guid: cd3965c148bec5c46a8505e3b1b3fc45
+  - enabled: 1
+    path: Assets/Scenes/Video_Inicial/Video.unity
+    guid: 62509e7358a17644d9f1c04cb5320255
+  - enabled: 1
     path: Assets/Scenes/Testeo.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    guid: fa915b15f6ed68b45867c4c892014497
+  - enabled: 1
+    path: Assets/Scenes/Plataformas.unity
+    guid: 5a7d2524aa9df0546a57413e44192f96
+  - enabled: 1
+    path: Assets/Scenes/Pause.unity
+    guid: e96c5dac2f7926b4fa03885d44628d0b
   m_configObjects: {}
