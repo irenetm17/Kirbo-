@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Testeo.unity
     guid: fa915b15f6ed68b45867c4c892014497
   - enabled: 1
-    path: Assets/Scenes/Juego1.unity
+    path: Assets/Scenes/Plataformas.unity
     guid: 5a7d2524aa9df0546a57413e44192f96
   - enabled: 1
     path: Assets/Scenes/Pause.unity
