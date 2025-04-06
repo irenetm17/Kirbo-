@@ -5,10 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Checkpoint
-  - Damage
-  - Health
-  - Coin
   layers:
   - Default
   - TransparentFX
