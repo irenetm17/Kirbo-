@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
     public float currentSpeed; // Player's current speed 
     private Color baseColor; // Main character placeholder initial color
 
+    public Contador contador;
+
     // COMPONENTS
     private SpriteRenderer _spriteRenderer; 
     private Rigidbody2D _rigidbody2D;
@@ -107,4 +109,15 @@ public class Movement : MonoBehaviour
         }
         _absorbArea.transform.localScale = scale;
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            contador.coinCount++;
+        }
+    }
 }
+
+

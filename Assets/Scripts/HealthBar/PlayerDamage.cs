@@ -38,7 +38,11 @@ public class PlayerDamage : MonoBehaviour
 
     void healKirbo(int heal)
     {
-        currentHealth += heal;
-        healthBar.setHealth(currentHealth);
+        if(currentHealth !=  maxHealth)
+        {
+            currentHealth += heal;
+            healthBar.setHealth(currentHealth);
+        }
+        
     }
 }
