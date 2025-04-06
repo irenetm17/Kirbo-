@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Inicio/Inicio.unity
     guid: bac81e5f36266f34595f269234361481
   - enabled: 1
-    path: Assets/Scenes/Menu_Principal/Menu_Principal.unity
+    path: Assets/Scenes/Menu_Principal.unity
     guid: cd3965c148bec5c46a8505e3b1b3fc45
   - enabled: 1
     path: Assets/Scenes/Video_Inicial/Video.unity
@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Testeo.unity
     guid: fa915b15f6ed68b45867c4c892014497
   - enabled: 1
-    path: Assets/Scenes/Plataformas.unity
+    path: Assets/Scenes/Juego1.unity
     guid: 5a7d2524aa9df0546a57413e44192f96
   - enabled: 1
     path: Assets/Scenes/Pause.unity

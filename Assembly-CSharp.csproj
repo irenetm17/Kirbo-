@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{57DAADF4-CF49-CB3A-FAD0-E0715DFC79B8}</ProjectGuid>
+    <ProjectGuid>{9B2BAD73-360A-CB23-F1CE-8D6215EA8669}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -60,12 +60,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Respawn\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\Player\AbsorbDissapearArea.cs" />
     <Compile Include="Assets\Scripts\HealthBar\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Menus\GoNextScene.cs" />
     <Compile Include="Assets\Scripts\Player\Absorb.cs" />
     <Compile Include="Assets\Scripts\Menus\ControlFades.cs" />
     <Compile Include="Assets\Scripts\Player\AbsorbArea.cs" />
+    <Compile Include="Assets\Scripts\Player\Contador.cs" />
+    <Compile Include="Assets\Scripts\Respawn\Respawn.cs" />
     <Compile Include="Assets\Scripts\Menus\Pause.cs" />
     <Compile Include="Assets\Scripts\Menus\VideoScript.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
