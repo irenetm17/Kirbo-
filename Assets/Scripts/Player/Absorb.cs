@@ -9,16 +9,16 @@ public class Absorb : MonoBehaviour
     public bool absorbing = false;
 
     // COMPONENTS
-    private SpriteRenderer _spriteRenderer;
     private GameObject absorbArea;
     private GameObject dissapearArea;
+    private Animator _animator;
 
     void Awake()
     {
         // INITIALIZE COMPONENTS
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         absorbArea = transform.GetChild(0).gameObject;
         dissapearArea = transform.GetChild(1).gameObject;
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -26,10 +26,9 @@ public class Absorb : MonoBehaviour
         // ABSORB WHEN PRESSING SPACE
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            absorbing = true;
+            _animator.SetTrigger("empiezaAbsorber");
 
-            // PAINT THE SPRITE RED IF ABSORBING
-            _spriteRenderer.color = Color.red;
+            absorbing = true;
 
             // ENABLE COLLIDERS
             absorbArea.SetActive(absorbing);
@@ -45,5 +44,7 @@ public class Absorb : MonoBehaviour
             absorbArea.SetActive(absorbing);
             dissapearArea.SetActive(absorbing);
         }
+
+        _animator.SetBool("absorbing", absorbing);
     }
 }

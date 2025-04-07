@@ -12,23 +12,22 @@ public class Movement : MonoBehaviour
 
     private float input; // Player's keyboard input
     public float currentSpeed; // Player's current speed 
-    private Color baseColor; // Main character placeholder initial color
+    public bool grounded;
 
     // COMPONENTS
-    private SpriteRenderer _spriteRenderer; 
     private Rigidbody2D _rigidbody2D;
     private GameObject _absorbArea;
-    
+    private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
+
 
     private void Awake()
     {
         // INITIALIZE COMPONENTS
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _absorbArea = transform.GetChild(0).gameObject;
-
-        // GET INITIAL BASE COLOR
-        baseColor = _spriteRenderer.color;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
 
         // SET INITIAL CURRENT SPEED 
         currentSpeed = speed;
@@ -54,7 +53,8 @@ public class Movement : MonoBehaviour
                 if (currentSpeed < (speed * speedBonus))
                 {
                     currentSpeed *= speedBonus;
-                }
+                    _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
+            }
             }
 
             // RESET SPEED WHEN SHIFT IS RELEASED
@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour
         Vector2 colliderPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
 
         // CHECK IF GROUNDED
-        bool grounded = Physics2D.OverlapCircle(colliderPosition, 0.01f, LayerMask.GetMask("Floor"));
+        grounded = Physics2D.OverlapCircle(colliderPosition, 0.01f, LayerMask.GetMask("Floor"));
        
 
         // ADD JUMP FORCE IF GROUNDED
@@ -91,18 +91,21 @@ public class Movement : MonoBehaviour
 
     private void flipCharacter()
     {
+        _spriteRenderer.flipX = (input > 0);       
+
+        // UPDATE ANIMATOR PARAMETERS
+        _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
+        _animator.SetBool("grounded", grounded);
+
+
         Vector3 scale = _absorbArea.transform.localScale;
 
-        // PAINT  THE SPRITE GREEN IF MOVING LEFT
         if (input < 0)
         {
-            _spriteRenderer.color = Color.blue;   
       
             scale.x = -1.0f;           
         }
         else{
-            _spriteRenderer.color = baseColor;
-
             scale.x = 1.0f;
         }
         _absorbArea.transform.localScale = scale;

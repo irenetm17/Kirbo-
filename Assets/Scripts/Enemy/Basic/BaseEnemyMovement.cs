@@ -17,11 +17,14 @@ public class BaseEnemyMovement : MonoBehaviour
     private GameObject _attackPlayerArea;
     public GameObject _startPath;
     public GameObject _endPath;
+    private SpriteRenderer _spriteRenderer;
+
 
     private void Awake()
     {
         // INITIALIZE COMPONENTS
         _attackPlayerArea = transform.GetChild(0).gameObject;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class BaseEnemyMovement : MonoBehaviour
         {
             patrol();
         }
+
+        _spriteRenderer.flipX = goingToEnd;
     }
 
     private void patrol()
@@ -62,12 +67,16 @@ public class BaseEnemyMovement : MonoBehaviour
         // IF MOVING LEFT
         if (transform.position.x > player.position.x)
         {
+            _spriteRenderer.flipX = true;
+
             scale.x = -1.0f;
 
             Debug.Log("Flipped left");
         }
         else
         {
+            _spriteRenderer.flipX = false;
+
             scale.x = 1.0f;
 
             Debug.Log("Flipped right");
