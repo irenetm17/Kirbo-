@@ -10,8 +10,11 @@ public class PlayerDamage : MonoBehaviour
 
     public HealthBar healthBar;
 
+    [SerializeField] private AudioClip bonusSound;
+    [SerializeField] private AudioClip damageSound;
 
-     void Start()
+
+    void Start()
     {
         currentHealth = maxHealth;
         healthBar.setMaxHealth(maxHealth);
@@ -23,8 +26,9 @@ public class PlayerDamage : MonoBehaviour
         {
             
             healKirbo(1);    
-            collision.gameObject.SetActive(false);  
-        }else if (collision.CompareTag("Damage"))
+            collision.gameObject.SetActive(false);
+        }
+        else if (collision.CompareTag("Damage"))
         {
             takeDamage(1);
             collision.gameObject.SetActive(false) ;
@@ -34,6 +38,8 @@ public class PlayerDamage : MonoBehaviour
     {
         if (currentHealth > 0)
         {
+            SoundManager.instance.playSoundClip(damageSound, transform, 0.5f);
+
             currentHealth -= damage;
             healthBar.setHealth(currentHealth);
         }
@@ -43,6 +49,8 @@ public class PlayerDamage : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
+            SoundManager.instance.playSoundClip(bonusSound, transform, 0.3f);
+
             currentHealth += heal;
             healthBar.setHealth(currentHealth);
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TargetPlayer : MonoBehaviour
 {
+    [SerializeField] private AudioClip targetSound;
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
@@ -12,6 +13,7 @@ public class TargetPlayer : MonoBehaviour
             GameObject enemy = parentObject.GetChild(0).gameObject;
 
             BaseEnemyMovement enemyMovementScript = enemy.GetComponent<BaseEnemyMovement>();
+            SoundManager.instance.playSoundClip(targetSound, transform, 1f);
             enemyMovementScript.targeted = !enemyMovementScript.targeted;
         }
     }

@@ -22,6 +22,10 @@ public class Movement : MonoBehaviour
 
     public Contador contador;
 
+    [SerializeField] private AudioClip recolectSound;
+    [SerializeField] private AudioClip sprintSound;
+    [SerializeField] private AudioClip jumpSound;
+
     private void Awake()
     {
         // INITIALIZE COMPONENTS
@@ -56,6 +60,7 @@ public class Movement : MonoBehaviour
             {
                 if (currentSpeed < (speed * speedBonus))
                 {
+                    SoundManager.instance.playSoundClip(sprintSound, transform, 0.5f);
                     currentSpeed *= speedBonus;
                     _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
             }
@@ -87,7 +92,7 @@ public class Movement : MonoBehaviour
         // ADD JUMP FORCE IF GROUNDED
         if (grounded && Input.GetKeyDown(KeyCode.W))
         {
-            
+            SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
             float jump = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight); // CALCULATE JUMP MAGNITUDE
             _rigidbody2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse); // ADD FORCE TO THE RIGIDBODY
         }
@@ -119,6 +124,8 @@ public class Movement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Coin"))
         {
+            SoundManager.instance.playSoundClip(recolectSound, transform, 0.5f);
+
             Destroy(other.gameObject);
             contador.coinCount++;
         }
