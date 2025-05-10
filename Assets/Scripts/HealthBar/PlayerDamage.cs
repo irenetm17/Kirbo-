@@ -32,13 +32,19 @@ public class PlayerDamage : MonoBehaviour
     }
     public void takeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.setHealth(currentHealth); 
+        if (currentHealth > 0)
+        {
+            currentHealth -= damage;
+            healthBar.setHealth(currentHealth);
+        }
     }
 
     void healKirbo(int heal)
     {
-        currentHealth += heal;
-        healthBar.setHealth(currentHealth);
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += heal;
+            healthBar.setHealth(currentHealth);
+        }
     }
 }
