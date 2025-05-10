@@ -30,7 +30,7 @@ public class PlayerDamage : MonoBehaviour
             collision.gameObject.SetActive(false) ;
         }
     }
-    void takeDamage(int damage)
+    public void takeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.setHealth(currentHealth); 

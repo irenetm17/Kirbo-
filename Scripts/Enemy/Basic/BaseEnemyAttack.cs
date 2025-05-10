@@ -1,24 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseEnemyAttack : MonoBehaviour
 {
     public float attackSpeed = 2.0f;
     private float timer = 0f;
-    private int attackPower = 1;
 
     private void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
         {
-            PlayerDamage scriptdamage = collider.gameObject.GetComponent<PlayerDamage>();
-            attack(scriptdamage);
+            attack();
         }
     }
 
-    private void attack(PlayerDamage script)
+    private void attack()
     {
         Transform enemy = transform.parent;
 
@@ -28,7 +25,6 @@ public class BaseEnemyAttack : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= attackSpeed)
         {
-            script.takeDamage(attackPower);
             Debug.Log("Player attacked");
 
             timer = 0f;

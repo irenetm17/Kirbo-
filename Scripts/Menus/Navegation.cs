@@ -7,7 +7,7 @@ public class Navegation : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync(5);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Quit()

@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Player\Absorb.cs" />
     <Compile Include="Assets\Scripts\Menus\ControlFades.cs" />
     <Compile Include="Assets\Scripts\Player\AbsorbArea.cs" />
+    <Compile Include="Assets\Options.cs" />
     <Compile Include="Assets\Scripts\Player\Contador.cs" />
     <Compile Include="Assets\Scripts\Enemy\Basic\ChangePath.cs" />
     <Compile Include="Assets\Scripts\Respawn\Respawn.cs" />
