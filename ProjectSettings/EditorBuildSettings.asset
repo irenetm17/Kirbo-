@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Inicio/Inicio.unity
     guid: bac81e5f36266f34595f269234361481
   - enabled: 1
-    path: Assets/Scenes/Menu_Principal.unity
-    guid: cd3965c148bec5c46a8505e3b1b3fc45
-  - enabled: 1
     path: Assets/Scenes/Video_Inicial/Video.unity
     guid: 62509e7358a17644d9f1c04cb5320255
   - enabled: 1
@@ -26,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Pause.unity
     guid: e96c5dac2f7926b4fa03885d44628d0b
+  - enabled: 1
+    path: Assets/Scenes/Menu_Principal/Menu_Principal.unity
+    guid: 633e7acdac6889043a46862a203bc55f
   m_configObjects: {}
