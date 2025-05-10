@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
 
+    public Contador contador;
 
     private void Awake()
     {
@@ -31,6 +32,9 @@ public class Movement : MonoBehaviour
 
         // SET INITIAL CURRENT SPEED 
         currentSpeed = speed;
+
+        GameObject auxCont = GameObject.Find("ObjectManager");
+        contador = auxCont.GetComponent<Contador>();
     }
 
     private void Update()
@@ -109,5 +113,14 @@ public class Movement : MonoBehaviour
             scale.x = 1.0f;
         }
         _absorbArea.transform.localScale = scale;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            contador.coinCount++;
+        }
     }
 }
