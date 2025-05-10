@@ -14,6 +14,18 @@ public class Movement : MonoBehaviour
     public float currentSpeed; // Player's current speed 
     public bool grounded;
 
+    public float wallJumpX = 2f;
+    public float wallJumpY = 2f;
+    public bool jumpWall = false;
+    public float timeJumpWall = 0.5f;
+    private float counterJumpWall = 0.5f;
+
+    public bool rIZ;
+    public bool rDer;
+
+    public bool wallSliding = false;
+    public float wallSpeed = 3f;
+
     // COMPONENTS
     private Rigidbody2D _rigidbody2D;
     private GameObject _absorbArea;
@@ -45,10 +57,12 @@ public class Movement : MonoBehaviour
     {
         // JUMP DETECTION
         jump();
+        Vector2 colliderPosition = new Vector2(transform.position.x + 0.04f, transform.position.y - 0.1875f);
+        bool ground = Physics2D.OverlapCircle(colliderPosition, 0.01f, LayerMask.GetMask("Floor"));
 
         // FLIP SPRITE TO THE LEFT
-            // GET PLAYER'S INPUT
-            input = Input.GetAxis("Horizontal");
+        // GET PLAYER'S INPUT
+        input = Input.GetAxis("Horizontal");
         
             if (input != 0) {
                 flipCharacter(); 
@@ -71,6 +85,73 @@ public class Movement : MonoBehaviour
             {
                 currentSpeed = speed;
             }
+
+        //WALL SLIDING
+
+        RaycastHit2D raycastIz = Physics2D.Raycast(transform.position + new Vector3(-0.36f, 0f), Vector2.left, 0.29f, LayerMask.GetMask("Floor"));
+
+        RaycastHit2D raycastDer = Physics2D.Raycast(transform.position + new Vector3(0.44f, 0f), Vector2.right, 0.21f, LayerMask.GetMask("Floor"));
+
+
+        if (raycastDer)
+        {
+            rDer = true;
+        }
+        else
+        {
+            rDer = false;
+        }
+        if (raycastIz)
+        {
+            rIZ = true;
+        }
+        else
+        {
+            rIZ = false;
+        }
+
+        if (raycastDer && wallJumpX > 0)
+        {
+            wallJumpX = wallJumpX * (-1);
+        }
+        else if (raycastIz && wallJumpX < 0)
+        {
+            wallJumpX = wallJumpX * (-1);
+
+        }
+
+        if (!ground && (raycastDer && Input.GetAxis("Horizontal") > 0 || raycastIz && Input.GetAxis("Horizontal") < 0))
+        {
+            wallSliding = true;
+            _animator.SetBool("wall", true);
+
+        }
+
+        if (wallSliding)
+        {
+            if (jumpWall == true)
+            {
+                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _rigidbody2D.velocity.y);
+            }
+            else
+            {
+                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x / 100, -wallSpeed);
+            }
+        }
+
+
+
+
+        //SALTO PARED
+        if ((wallSliding || ((raycastDer || raycastIz) && !ground)) && Input.GetButtonDown("Jump"))
+        {
+            _rigidbody2D.velocity = new Vector2(0f, 0f);
+            _rigidbody2D.AddForce(new Vector2(wallJumpX, wallJumpY), ForceMode2D.Impulse);
+            _animator.SetBool("wall", false);
+            _animator.SetBool("hitJump", true);
+            jumpWall = true;
+        }
+
 
     }
 
