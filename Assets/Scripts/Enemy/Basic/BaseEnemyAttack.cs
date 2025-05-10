@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BaseEnemyAttack : MonoBehaviour
 {
-    public float attackSpeed = 2.0f;
+    public float attackSpeed = 0.001f;
     private float timer = 0f;
     private int attackPower = 1;
 

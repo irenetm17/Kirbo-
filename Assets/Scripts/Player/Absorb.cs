@@ -7,6 +7,7 @@ public class Absorb : MonoBehaviour
 {
     // PARAMETERS
     public bool absorbing = false;
+    [SerializeField] private AudioClip absorbSound;
 
     // COMPONENTS
     private GameObject absorbArea;
@@ -29,6 +30,8 @@ public class Absorb : MonoBehaviour
             _animator.SetTrigger("empiezaAbsorber");
 
             absorbing = true;
+
+            SoundManager.instance.playSoundClip(absorbSound, transform, 1f);
 
             // ENABLE COLLIDERS
             absorbArea.SetActive(absorbing);
