@@ -14,6 +14,8 @@ public class PlayerDamage : MonoBehaviour
     [SerializeField] private AudioClip bonusSound;
     [SerializeField] private AudioClip damageSound;
 
+    private Animator _animator;
+
 
     void Start()
     {
@@ -51,6 +53,15 @@ public class PlayerDamage : MonoBehaviour
 
             currentHealth -= damage;
             healthBar.setHealth(currentHealth);
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _animator = player.GetComponent<Animator>();
+
+            _animator.SetBool("hurt", true);
+        }
+        if (currentHealth == 0)
+        {
+            SceneManager.LoadScene("GameOver");
         }
         if (currentHealth == 0)
         {
