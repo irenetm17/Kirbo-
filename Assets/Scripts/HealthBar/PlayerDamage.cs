@@ -57,11 +57,9 @@ public class PlayerDamage : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             _animator = player.GetComponent<Animator>();
 
-            _animator.SetBool("hurt", true);
-        }
-        if (currentHealth == 0)
-        {
-            SceneManager.LoadScene("GameOver");
+
+            StartCoroutine(enumerator(1f));
+
         }
         if (currentHealth == 0)
         {
@@ -78,5 +76,12 @@ public class PlayerDamage : MonoBehaviour
             currentHealth += heal;
             healthBar.setHealth(currentHealth);
         }
+    }
+
+    IEnumerator enumerator(float time)
+    {
+        _animator.SetBool("hurt", true);
+        yield return new WaitForSeconds(time);
+        _animator.SetBool("hurt", false);
     }
 }

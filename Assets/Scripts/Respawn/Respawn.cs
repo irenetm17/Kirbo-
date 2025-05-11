@@ -7,6 +7,7 @@ public class Respawn : MonoBehaviour
 
     public GameObject player;
     public GameObject respawn;
+    
 
     [SerializeField] private AudioClip screamSound;
 
@@ -16,7 +17,15 @@ public class Respawn : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             SoundManager.instance.playSoundClip(screamSound, transform, 0.5f);
+
+            PlayerDamage damageScript = player.GetComponent<PlayerDamage>();
+            if (damageScript != null)
+            {
+                damageScript.takeDamage(1);
+            }
             player.transform.position = respawn.transform.position;
+
+
         }
     }
 }

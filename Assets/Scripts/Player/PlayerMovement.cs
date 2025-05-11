@@ -148,7 +148,7 @@ public class Movement : MonoBehaviour
 
         if (other.gameObject.CompareTag("End"))
         {
-            SceneManager.LoadScene("Creditos");
+            SceneManager.LoadScene("Credits");
         }
         if (other.gameObject.CompareTag("Coin"))
         {
@@ -160,6 +160,7 @@ public class Movement : MonoBehaviour
 
         if(other.gameObject.CompareTag("SpeedBoost"))
         {
+
             StartCoroutine(ActiveBoost("speedBoost",5f));
             Destroy(other.gameObject);
         }
