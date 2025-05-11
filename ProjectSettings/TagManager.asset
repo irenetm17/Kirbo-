@@ -9,6 +9,10 @@ TagManager:
   - Health
   - Checkpoint
   - Coin
+  - SpeedBoost
+  - DoubleJump
+  - Star
+  - End
   layers:
   - Default
   - TransparentFX

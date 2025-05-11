@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -14,25 +15,20 @@ public class Movement : MonoBehaviour
     public float currentSpeed; // Player's current speed 
     public bool grounded;
 
-    public float wallJumpX = 2f;
-    public float wallJumpY = 2f;
-    public bool jumpWall = false;
-    public float timeJumpWall = 0.5f;
-    private float counterJumpWall = 0.5f;
-
-    public bool rIZ;
-    public bool rDer;
-
-    public bool wallSliding = false;
-    public float wallSpeed = 3f;
-
     // COMPONENTS
     private Rigidbody2D _rigidbody2D;
     private GameObject _absorbArea;
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
 
+    //CONTADOR PARA LAS ESTRELLAS
     public Contador contador;
+
+    //VARIABLES PARA LOS BOOSTS
+    public bool doubleJump = false;
+    public bool speedBoost = false;
+    
+
 
     [SerializeField] private AudioClip recolectSound;
     [SerializeField] private AudioClip sprintSound;
@@ -57,12 +53,10 @@ public class Movement : MonoBehaviour
     {
         // JUMP DETECTION
         jump();
-        Vector2 colliderPosition = new Vector2(transform.position.x + 0.04f, transform.position.y - 0.1875f);
-        bool ground = Physics2D.OverlapCircle(colliderPosition, 0.01f, LayerMask.GetMask("Floor"));
 
         // FLIP SPRITE TO THE LEFT
-        // GET PLAYER'S INPUT
-        input = Input.GetAxis("Horizontal");
+            // GET PLAYER'S INPUT
+            input = Input.GetAxis("Horizontal");
         
             if (input != 0) {
                 flipCharacter(); 
@@ -77,7 +71,7 @@ public class Movement : MonoBehaviour
                     SoundManager.instance.playSoundClip(sprintSound, transform, 0.5f);
                     currentSpeed *= speedBonus;
                     _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
-            }
+                }  
             }
 
             // RESET SPEED WHEN SHIFT IS RELEASED
@@ -86,79 +80,21 @@ public class Movement : MonoBehaviour
                 currentSpeed = speed;
             }
 
-        //WALL SLIDING
-
-        RaycastHit2D raycastIz = Physics2D.Raycast(transform.position + new Vector3(-0.36f, 0f), Vector2.left, 0.29f, LayerMask.GetMask("Floor"));
-
-        RaycastHit2D raycastDer = Physics2D.Raycast(transform.position + new Vector3(0.44f, 0f), Vector2.right, 0.21f, LayerMask.GetMask("Floor"));
-
-
-        if (raycastDer)
-        {
-            rDer = true;
-        }
-        else
-        {
-            rDer = false;
-        }
-        if (raycastIz)
-        {
-            rIZ = true;
-        }
-        else
-        {
-            rIZ = false;
-        }
-
-        if (raycastDer && wallJumpX > 0)
-        {
-            wallJumpX = wallJumpX * (-1);
-        }
-        else if (raycastIz && wallJumpX < 0)
-        {
-            wallJumpX = wallJumpX * (-1);
-
-        }
-
-        if (!ground && (raycastDer && Input.GetAxis("Horizontal") > 0 || raycastIz && Input.GetAxis("Horizontal") < 0))
-        {
-            wallSliding = true;
-            _animator.SetBool("wall", true);
-
-        }
-
-        if (wallSliding)
-        {
-            if (jumpWall == true)
-            {
-                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _rigidbody2D.velocity.y);
-            }
-            else
-            {
-                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x / 100, -wallSpeed);
-            }
-        }
-
-
-
-
-        //SALTO PARED
-        if ((wallSliding || ((raycastDer || raycastIz) && !ground)) && Input.GetButtonDown("Jump"))
-        {
-            _rigidbody2D.velocity = new Vector2(0f, 0f);
-            _rigidbody2D.AddForce(new Vector2(wallJumpX, wallJumpY), ForceMode2D.Impulse);
-            _animator.SetBool("wall", false);
-            _animator.SetBool("hitJump", true);
-            jumpWall = true;
-        }
-
-
     }
 
     private void FixedUpdate()
     {
-        // UPDATE RIGIDBODY'S VELOCITY WITH PLAYER'S INPUT (HORIZONTAL AXIS)
-        _rigidbody2D.velocity = new Vector2(input * currentSpeed, _rigidbody2D.velocity.y);
+        if (!speedBoost)
+        {
+            // UPDATE RIGIDBODY'S VELOCITY WITH PLAYER'S INPUT (HORIZONTAL AXIS)
+            _rigidbody2D.velocity = new Vector2(input * currentSpeed, _rigidbody2D.velocity.y);
+        }
+        else
+        {
+            // INCREASE SPEED FOR PLAYER
+            _rigidbody2D.velocity = new Vector2(input * (currentSpeed+5), _rigidbody2D.velocity.y);
+        }
+        
     }
 
     private void jump()
@@ -176,6 +112,13 @@ public class Movement : MonoBehaviour
             SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
             float jump = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight); // CALCULATE JUMP MAGNITUDE
             _rigidbody2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse); // ADD FORCE TO THE RIGIDBODY
+        }
+
+        if(Input.GetKeyDown(KeyCode.W) && doubleJump && !grounded)
+        {
+            SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
+            _rigidbody2D.AddForce(new Vector2(0f, 5), ForceMode2D.Impulse); 
+            doubleJump = false;
         }
     }
 
@@ -203,12 +146,55 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("End"))
+        {
+            SceneManager.LoadScene("Creditos");
+        }
         if (other.gameObject.CompareTag("Coin"))
         {
             SoundManager.instance.playSoundClip(recolectSound, transform, 0.5f);
 
             Destroy(other.gameObject);
             contador.coinCount++;
+        }
+
+        if(other.gameObject.CompareTag("SpeedBoost"))
+        {
+            StartCoroutine(ActiveBoost("speedBoost",5f));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Star"))
+        {
+            StartCoroutine(ActiveBoost("estrella", 5f));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("DoubleJump"))
+        {
+            doubleJump = true;
+            Destroy (other.gameObject);
+        }
+    }
+
+    IEnumerator ActiveBoost(string boost,float duration)
+    {
+        if(boost == "estrella")
+        {
+            doubleJump = true;
+            speedBoost = true;
+        }
+
+        if (boost == "speedBoost") speedBoost = true;
+
+        yield return new WaitForSeconds(duration);
+
+        if (boost == "speedBoost") speedBoost = false;
+
+        if (boost == "estrella")
+        {
+            doubleJump = false;
+            speedBoost = false;
         }
     }
 }
