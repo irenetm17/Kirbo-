@@ -14,6 +14,8 @@ public class PlayerDamage : MonoBehaviour
     [SerializeField] private AudioClip bonusSound;
     [SerializeField] private AudioClip damageSound;
 
+    private Animator _animator;
+
 
     void Start()
     {
@@ -51,6 +53,11 @@ public class PlayerDamage : MonoBehaviour
 
             currentHealth -= damage;
             healthBar.setHealth(currentHealth);
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _animator = player.GetComponent<Animator>();
+
+            StartCoroutine(enumerator(1f));
         }
         if (currentHealth == 0)
         {
@@ -67,5 +74,12 @@ public class PlayerDamage : MonoBehaviour
             currentHealth += heal;
             healthBar.setHealth(currentHealth);
         }
+    }
+
+    IEnumerator enumerator(float time)
+    {
+        _animator.SetBool("hurt", true);
+        yield return new WaitForSeconds(time);
+        _animator.SetBool("hurt", false);
     }
 }

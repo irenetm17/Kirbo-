@@ -69,8 +69,7 @@ public class Movement : MonoBehaviour
                 if (currentSpeed < (speed * speedBonus))
                 {
                     SoundManager.instance.playSoundClip(sprintSound, transform, 0.5f);
-                    currentSpeed *= speedBonus;
-                    _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
+                    currentSpeed *= speedBonus;                 
                 }  
             }
 
@@ -94,7 +93,8 @@ public class Movement : MonoBehaviour
             // INCREASE SPEED FOR PLAYER
             _rigidbody2D.velocity = new Vector2(input * (currentSpeed+5), _rigidbody2D.velocity.y);
         }
-        
+
+        _animator.SetFloat("yVelocity", Mathf.Abs(_rigidbody2D.velocity.x));
     }
 
     private void jump()
@@ -112,6 +112,7 @@ public class Movement : MonoBehaviour
             SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
             float jump = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight); // CALCULATE JUMP MAGNITUDE
             _rigidbody2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse); // ADD FORCE TO THE RIGIDBODY
+            
         }
 
         if(Input.GetKeyDown(KeyCode.W) && doubleJump && !grounded)
@@ -120,16 +121,13 @@ public class Movement : MonoBehaviour
             _rigidbody2D.AddForce(new Vector2(0f, 5), ForceMode2D.Impulse); 
             doubleJump = false;
         }
+
+        // _animator.SetBool("jump", !grounded);
     }
 
     private void flipCharacter()
     {
         _spriteRenderer.flipX = (input > 0);       
-
-        // UPDATE ANIMATOR PARAMETERS
-        _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
-        _animator.SetBool("grounded", grounded);
-
 
         Vector3 scale = _absorbArea.transform.localScale;
 
@@ -150,7 +148,7 @@ public class Movement : MonoBehaviour
 
         if (other.gameObject.CompareTag("End"))
         {
-            SceneManager.LoadScene("Creditos");
+            SceneManager.LoadScene("Credits");
         }
         if (other.gameObject.CompareTag("Coin"))
         {
@@ -162,6 +160,7 @@ public class Movement : MonoBehaviour
 
         if(other.gameObject.CompareTag("SpeedBoost"))
         {
+
             StartCoroutine(ActiveBoost("speedBoost",5f));
             Destroy(other.gameObject);
         }
