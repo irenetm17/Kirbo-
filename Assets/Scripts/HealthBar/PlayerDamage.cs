@@ -57,7 +57,9 @@ public class PlayerDamage : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             _animator = player.GetComponent<Animator>();
 
+
             StartCoroutine(enumerator(1f));
+
         }
         if (currentHealth == 0)
         {

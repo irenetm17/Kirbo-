@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Player\AbsorbArea.cs" />
     <Compile Include="Assets\Options.cs" />
     <Compile Include="Assets\Scripts\Player\Contador.cs" />
+    <Compile Include="Assets\Scripts\Creditos\Creditos.cs" />
     <Compile Include="Assets\Scripts\Enemy\Basic\ChangePath.cs" />
     <Compile Include="Assets\Scripts\Sounds\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Respawn\Respawn.cs" />
