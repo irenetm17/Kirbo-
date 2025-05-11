@@ -11,6 +11,6 @@ public class Contador : MonoBehaviour
 
     private void Update()
     {
-        coinText.text = "Estrellas: " + coinCount.ToString();
+        coinText.text =  coinCount.ToString();
     }
 }
