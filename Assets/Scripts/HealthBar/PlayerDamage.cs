@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerDamage : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerDamage : MonoBehaviour
     [SerializeField] private AudioClip bonusSound;
     [SerializeField] private AudioClip damageSound;
 
+    private Animator _animator;
+
 
     void Start()
     {
@@ -20,18 +23,26 @@ public class PlayerDamage : MonoBehaviour
         healthBar.setMaxHealth(maxHealth);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D trigger)
     {
-        if (collision.CompareTag("Health"))
+        if (trigger.CompareTag("Health"))
         {
-            
             healKirbo(1);    
-            collision.gameObject.SetActive(false);
+            trigger.gameObject.SetActive(false);
         }
-        else if (collision.CompareTag("Damage"))
+        else if (trigger.CompareTag("Damage"))
         {
             takeDamage(1);
-            collision.gameObject.SetActive(false) ;
+            trigger.gameObject.SetActive(false) ;
+        }
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            takeDamage(1);
         }
     }
     public void takeDamage(int damage)
@@ -42,6 +53,15 @@ public class PlayerDamage : MonoBehaviour
 
             currentHealth -= damage;
             healthBar.setHealth(currentHealth);
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _animator = player.GetComponent<Animator>();
+
+            _animator.SetBool("hurt", true);
+        }
+        if (currentHealth == 0)
+        {
+            SceneManager.LoadScene("GameOver");
         }
     }
 

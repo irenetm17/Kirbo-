@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -20,7 +21,14 @@ public class Movement : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
 
+    //CONTADOR PARA LAS ESTRELLAS
     public Contador contador;
+
+    //VARIABLES PARA LOS BOOSTS
+    public bool doubleJump = false;
+    public bool speedBoost = false;
+    
+
 
     [SerializeField] private AudioClip recolectSound;
     [SerializeField] private AudioClip sprintSound;
@@ -61,9 +69,8 @@ public class Movement : MonoBehaviour
                 if (currentSpeed < (speed * speedBonus))
                 {
                     SoundManager.instance.playSoundClip(sprintSound, transform, 0.5f);
-                    currentSpeed *= speedBonus;
-                    _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
-            }
+                    currentSpeed *= speedBonus;                 
+                }  
             }
 
             // RESET SPEED WHEN SHIFT IS RELEASED
@@ -76,8 +83,18 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // UPDATE RIGIDBODY'S VELOCITY WITH PLAYER'S INPUT (HORIZONTAL AXIS)
-        _rigidbody2D.velocity = new Vector2(input * currentSpeed, _rigidbody2D.velocity.y);
+        if (!speedBoost)
+        {
+            // UPDATE RIGIDBODY'S VELOCITY WITH PLAYER'S INPUT (HORIZONTAL AXIS)
+            _rigidbody2D.velocity = new Vector2(input * currentSpeed, _rigidbody2D.velocity.y);
+        }
+        else
+        {
+            // INCREASE SPEED FOR PLAYER
+            _rigidbody2D.velocity = new Vector2(input * (currentSpeed+5), _rigidbody2D.velocity.y);
+        }
+
+        _animator.SetFloat("yVelocity", Mathf.Abs(_rigidbody2D.velocity.x));
     }
 
     private void jump()
@@ -95,17 +112,22 @@ public class Movement : MonoBehaviour
             SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
             float jump = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight); // CALCULATE JUMP MAGNITUDE
             _rigidbody2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse); // ADD FORCE TO THE RIGIDBODY
+            
         }
+
+        if(Input.GetKeyDown(KeyCode.W) && doubleJump && !grounded)
+        {
+            SoundManager.instance.playSoundClip(jumpSound, transform, 1f);
+            _rigidbody2D.AddForce(new Vector2(0f, 5), ForceMode2D.Impulse); 
+            doubleJump = false;
+        }
+
+        // _animator.SetBool("jump", !grounded);
     }
 
     private void flipCharacter()
     {
         _spriteRenderer.flipX = (input > 0);       
-
-        // UPDATE ANIMATOR PARAMETERS
-        _animator.SetFloat("yVelocity", Mathf.Abs(currentSpeed));
-        _animator.SetBool("grounded", grounded);
-
 
         Vector3 scale = _absorbArea.transform.localScale;
 
@@ -122,12 +144,55 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("End"))
+        {
+            SceneManager.LoadScene("Creditos");
+        }
         if (other.gameObject.CompareTag("Coin"))
         {
             SoundManager.instance.playSoundClip(recolectSound, transform, 0.5f);
 
             Destroy(other.gameObject);
             contador.coinCount++;
+        }
+
+        if(other.gameObject.CompareTag("SpeedBoost"))
+        {
+            StartCoroutine(ActiveBoost("speedBoost",5f));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Star"))
+        {
+            StartCoroutine(ActiveBoost("estrella", 5f));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("DoubleJump"))
+        {
+            doubleJump = true;
+            Destroy (other.gameObject);
+        }
+    }
+
+    IEnumerator ActiveBoost(string boost,float duration)
+    {
+        if(boost == "estrella")
+        {
+            doubleJump = true;
+            speedBoost = true;
+        }
+
+        if (boost == "speedBoost") speedBoost = true;
+
+        yield return new WaitForSeconds(duration);
+
+        if (boost == "speedBoost") speedBoost = false;
+
+        if (boost == "estrella")
+        {
+            doubleJump = false;
+            speedBoost = false;
         }
     }
 }
